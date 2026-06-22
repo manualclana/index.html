@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Краткое руководство по прохождению</title>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --bg-dark: #0f1115;       
+            --bg-card: #161920;       
+            --primary-neon: #00ffcc;  
+            --text-main: #e2e8f0;     
+            --text-muted: #94a3b8;    
+            --border-color: #2a313d;  
+            --accent-red: #ff4a4a;    
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-family);
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            background-color: var(--bg-card);
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--border-color), transparent);
+            margin: 30px 0;
+        }
+
+        header {
+            text-align: center;
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ffffff;
+            margin-bottom: 5px;
+            text-shadow: 0 0 15px rgba(0, 255, 204, 0.3);
+        }
+
+        .abbreviation {
+            color: var(--primary-neon);
+            font-size: 1.8rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .document-type {
+            font-size: 1.3rem;
+            color: var(--primary-neon);
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .editor, .status {
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .status {
+            display: inline-block;
+            background: rgba(255, 74, 74, 0.1);
+            color: var(--accent-red);
+            padding: 4px 12px;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 74, 74, 0.3);
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+        }
+
+        .edit-button {
+            display: inline-block;
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: transparent;
+            color: var(--primary-neon);
+            border: 1px solid var(--primary-neon);
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .edit-button:hover {
+            background: var(--primary-neon);
+            color: var(--bg-dark);
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .edit-button.saving-mode {
+            color: var(--bg-dark);
+            background: var(--primary-neon);
+            border-color: var(--primary-neon);
+        }
+
+        .table-of-contents {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-neon);
+        }
+
+        .content-title {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .content-list {
+            list-style: none;
+        }
+
+        .content-list li {
+            margin-bottom: 12px;
+        }
+
+        .content-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .content-list a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease, padding-left 0.2s ease;
+            display: inline-block;
+        }
+
+        .content-list a:hover {
+            color: var(--primary-neon);
+            padding-left: 6px;
+        }
+
+        .section {
+            margin-bottom: 35px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            border: 1px solid transparent;
+            transition: all 0.4s ease-in-out;
+        }
+
+        .section:hover {
+            border-color: rgba(0, 255, 204, 0.15);
+        }
+
+        .section:target {
+            border-color: var(--primary-neon);
+            background: rgba(0, 255, 204, 0.06);
+            box-shadow: 0 0 25px rgba(0, 255, 204, 0.2);
+            transform: scale(1.02);
+        }
+
+        .section h4 {
+            font-size: 1.2rem;
+            color: var(--primary-neon);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .section-image {
+            width: 100%;
+            max-height: 280px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            display: block;
+        }
+
+        .section p {
+            color: var(--text-main);
+            font-size: 1rem;
+            background: rgba(0, 0, 0, 0.15);
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 3px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .section p[contenteditable="true"] {
+            background: rgba(0, 255, 204, 0.05);
+            border-left: 3px solid var(--primary-neon);
+            outline: none;
+            box-shadow: inset 0 0 10px rgba(0, 255, 204, 0.1);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 5px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 15px 10px; }
+            .container { padding: 20px; }
+            header { padding-top: 50px; }
+            .edit-button { position: static; display: block; margin: 0 auto 20px auto; width: max-content; }
+            .title { font-size: 1.8rem; }
+            .abbreviation { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+                <a href="https://discord.gg/hEvmHnFTX" class="discord-button" target="_blank">
+                <svg viewBox="0 0 127.14 96.36" class="discord-icon" style="width: 16px; height: 16px;"><path d="M107.7,8.07A105.15,105.15,0,0,0,77.26,0a77.19,77.19,0,0,0-3.3,6.83A96.67,96.67,0,0,0,53.18,6.83,77.19,77.19,0,0,0,49.88,0,105.15,105.15,0,0,0,19.44,8.07C3.66,31.58-1.86,54.65,1,77.53A105.73,105.73,0,0,0,32,96.36a74.37,74.37,0,0,0,6.73-10.95A68.52,68.52,0,0,1,28,80.48c1,.74,2,1.51,3,2.26a74.72,74.72,0,0,0,65.07,0c1-.75,2-1.52,3-2.26a68.87,68.87,0,0,1-10.74,4.93,74.08,74.08,0,0,0,6.73,10.95,105.73,105.73,0,0,0,31-18.83C129.83,50.54,123.75,27.76,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53S36.18,40.36,42.45,40.36,53.84,46,53.84,53,48.72,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.24,60,73.24,53S78.41,40.36,84.69,40.36,96.08,46,96.08,53,91,65.69,84.69,65.69Z" fill="currentColor"/></svg>
+                Наш Discord
+            </a>
+            <h1 class="title">Sphere of Electricity <span class="abbreviation">〚SoE〛</span></h1>
+            <h2 class="subtitle">Roblox for the National Army Training Academy</h2>
+            <h3 class="document-type">Краткое руководство к прохождению</h3>
+            <p class="editor"><strong>Скорректированное издание от artlegend66</strong></p>
+            <button id="editBtn" class="edit-button" onclick="toggleEdit()">Редактировать</button>
+        </header>
+
+        <hr>
+
+        <nav class="table-of-contents">
+            <h4 class="content-title">📑 СОДЕРЖАНИЕ МАНУАЛА</h4>
+            <ul class="content-list">
+                <li><a href="#lection1">LECTION 1. Основы экономики и База</a></li>
+                <li><a href="#lection2">LECTION 2. Оружейный арсенал и Loadouts</a></li>
+                <li><a href="#lection3">LECTION 3. Управление боевой техникой</a></li>
+                <li><a href="#lection4">LECTION 4. Регламент боевых операций</a></li>
+                <li><a href="#lection5">LECTION 5. Система рангов и Factions</a></li>
+            </ul>
+        </nav>
+
+        <hr>
+
+   <section id="lection1" class="section">
+    <h4>▶️ LECTION 1. Основы экономики и База</h4>
+    <img class="section-image" src="https://nocookie.net" alt="Base">
+    <p id="lection1-content" class="editable-content">Сбор ресурсов: В начале игры фокус идет на ручной сбор бочек и запуск дропперов. Захват Центральной точки (Capture Point) приносит пассивные +$8,000 каждые 10 секунд (+$16,000 с геймпассом), что критически важно для быстрых перерождений (Rebirth).</p>
+</section>
+
+        <section id="lection2" class="section">
+            <h4>▶️ LECTION 2. Оружейный арсенал и Loadouts</h4>
+            <img class="section-image" src="https://unsplash.com" alt="Armory">
+            <p id="lection2-content" class="editable-content">Каждый боец должен настроить свои комплекты оружия...</p>
+        </section>
+
+        <section id="lection3" class="section">
+            <h4>▶️ LECTION 3. Управление боевой техникой</h4>
+            <img class="section-image" src="https://unsplash.com" alt="Vehicles">
+            <p id="lection3-content" class="editable-content">Помните ключевые механики контроля и взаимодействия...</p>
+        </section>
+
+        <section id="lection4" class="section">
+            <h4>▶️ LECTION 4. Регламент боевых операций</h4>
+            <img class="section-image" src="https://unsplash.com" alt="Operations">
+            <p id="lection4-content" class="editable-content">Штурм Центральной Точки: Сбор клана происходит на базе командира...</p>
+        </section>
+
+        <section id="lection5" class="section">
+            <h4>▶️ LECTION 5. Система рангов и Factions</h4>
+            <img class="section-image" src="https://unsplash.com" alt="Ranks">
+            <p id="lection5-content" class="editable-content">
+            Создание официальной фракции внутри игры стоит $1,000,000...
+        </p>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2026 Sphere of Electricity. Все права защищены.</p>
+    </footer>
+</div>
+
+<style>
+    body {
+        background-image: linear-gradient(rgba(15, 17, 21, 0.90), rgba(15, 17, 21, 0.90)), 
+                          url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpon6oYCdU-h2-_zVwRymamF0Bnq0l7F4ZLQ&s');
+        background-size: 105% 105%;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        animation: militaryPulse 16s ease-in-out infinite alternate;
+    }
+
+    @keyframes militaryPulse {
+        0% {
+            background-size: 105% 105%;
+            filter: brightness(0.85);
+        }
+        100% {
+            background-size: 112% 112%;
+            filter: brightness(1.05) contrast(1.05);
+        }
+    }
+
+    .container {
+        backdrop-filter: blur(12px);
+        background-color: rgba(22, 25, 32, 0.92);
+        border: 1px solid rgba(0, 255, 204, 0.2);
+        box-shadow: 0 0 50px rgba(0, 0, 0, 0.9), inset 0 0 20px rgba(0, 255, 204, 0.05);
+    }
+
+    .section-image {
+        width: 100%;
+        max-height: 280px;
+        object-fit: cover;
+        border-radius: 6px;
+        margin-bottom: 12px;
+        border: 1px solid var(--border-color);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+        display: block;
+        transition: border-color 0.4s, box-shadow 0.4s;
+    }
+
+    .section:target .section-image {
+        border-color: var(--primary-neon);
+        box-shadow: 0 0 15px rgba(0, 255, 204, 0.3);
+    }
+</style>
+
+<script>
+    let isEditing = false;
+
+    window.onload = function() {
+        const paragraphs = document.querySelectorAll('.editable-content');
+        paragraphs.forEach(p => {
+            const savedText = localStorage.getItem(p.id);
+            if (savedText) {
+                p.innerHTML = savedText;
+            }
+        });
+    };
+
+    function toggleEdit() {
+        const editBtn = document.getElementById('editBtn');
+        const paragraphs = document.querySelectorAll('.editable-content');
+
+        if (!isEditing) {
+            const userPassword = prompt("Введите тактический пароль доступа для редактирования:");
+            if (userPassword === null) return;
+
+            if (btoa(userPassword) === "U29FX1NlY3VyZTUwMQ==") {
+                isEditing = true;
+                editBtn.innerText = "Сохранить";
+                editBtn.classList.add('saving-mode');
+                
+                paragraphs.forEach(p => {
+                    p.setAttribute('contenteditable', 'true');
+                });
+                alert("Доступ разрешен. Теперь вы можете изменить текст любой лекции.");
+            } else {
+                alert("Ошибка доступа! Неверный пароль.");
+            }
+        } else {
+            isEditing = false;
+            editBtn.innerText = "Редактировать";
+            editBtn.classList.remove('saving-mode');
+            
+            paragraphs.forEach(p => {
+                p.setAttribute('contenteditable', 'false');
+                localStorage.setItem(p.id, p.innerHTML);
+            });
+            
+            alert("Изменения успешно зафиксированы и сохранены!");
+        }
+    }
+</script>
+</body>
+</html>
