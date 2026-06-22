@@ -260,7 +260,6 @@
             <h2 class="subtitle">Roblox for the National Army Training Academy</h2>
             <h3 class="document-type">Краткое руководство к прохождению</h3>
             <p class="editor"><strong>Скорректированное издание от artlegend66</strong></p>
-            <button id="editBtn" class="edit-button" onclick="toggleEdit()">Редактировать</button>
         </header>
 
         <hr>
@@ -361,53 +360,5 @@
         box-shadow: 0 0 15px rgba(0, 255, 204, 0.3);
     }
 </style>
-
-<script>
-    let isEditing = false;
-
-    window.onload = function() {
-        const paragraphs = document.querySelectorAll('.editable-content');
-        paragraphs.forEach(p => {
-            const savedText = localStorage.getItem(p.id);
-            if (savedText) {
-                p.innerHTML = savedText;
-            }
-        });
-    };
-
-    function toggleEdit() {
-        const editBtn = document.getElementById('editBtn');
-        const paragraphs = document.querySelectorAll('.editable-content');
-
-        if (!isEditing) {
-            const userPassword = prompt("Введите тактический пароль доступа для редактирования:");
-            if (userPassword === null) return;
-
-            if (btoa(userPassword) === "U29FX1NlY3VyZTUwMQ==") {
-                isEditing = true;
-                editBtn.innerText = "Сохранить";
-                editBtn.classList.add('saving-mode');
-                
-                paragraphs.forEach(p => {
-                    p.setAttribute('contenteditable', 'true');
-                });
-                alert("Доступ разрешен. Теперь вы можете изменить текст любой лекции.");
-            } else {
-                alert("Ошибка доступа! Неверный пароль.");
-            }
-        } else {
-            isEditing = false;
-            editBtn.innerText = "Редактировать";
-            editBtn.classList.remove('saving-mode');
-            
-            paragraphs.forEach(p => {
-                p.setAttribute('contenteditable', 'false');
-                localStorage.setItem(p.id, p.innerHTML);
-            });
-            
-            alert("Изменения успешно зафиксированы и сохранены!");
-        }
-    }
-</script>
 </body>
 </html>
